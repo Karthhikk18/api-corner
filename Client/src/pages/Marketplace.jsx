@@ -9,7 +9,8 @@ function Marketplace() {
 
   useEffect(() => {
     // Fetch APIs from backend
-    fetch('http://localhost:5000/api/directory')
+    const apiUrl = import.meta.env.DEV ? 'http://localhost:5000/api/directory' : '/api/directory';
+    fetch(apiUrl)
       .then(res => res.json())
       .then(data => {
         setApis(data);

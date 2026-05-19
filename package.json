@@ -1,0 +1,10 @@
+{
+  "name": "api-corner",
+  "version": "1.0.0",
+  "description": "API Corner unified deployment",
+  "scripts": {
+    "install": "cd server && npm install && cd ../Client && npm install",
+    "build": "cd Client && npm run build",
+    "start": "cd server && npm start"
+  }
+}

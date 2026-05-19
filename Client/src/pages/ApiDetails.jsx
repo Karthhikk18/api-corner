@@ -11,7 +11,8 @@ function ApiDetails() {
   const [testParams, setTestParams] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/directory/${id}`)
+    const apiUrl = import.meta.env.DEV ? `http://localhost:5000/api/directory/${id}` : `/api/directory/${id}`;
+    fetch(apiUrl)
       .then(res => res.json())
       .then(data => {
         setApi(data);
@@ -39,7 +40,8 @@ function ApiDetails() {
     try {
       // Build query string
       const queryParams = new URLSearchParams(testParams).toString();
-      const url = `http://localhost:5000${api.endpoint}${queryParams ? `?${queryParams}` : ''}`;
+      const baseUrl = import.meta.env.DEV ? 'http://localhost:5000' : '';
+      const url = `${baseUrl}${api.endpoint}${queryParams ? `?${queryParams}` : ''}`;
       
       const res = await fetch(url);
       const data = await res.json();
@@ -70,7 +72,7 @@ function ApiDetails() {
 
       <div className="endpoint-box">
         <span className="api-method">{api.method}</span>
-        <span>http://localhost:5000{api.endpoint}</span>
+        <span>{import.meta.env.DEV ? 'http://localhost:5000' : window.location.origin}{api.endpoint}</span>
       </div>
 
       <h2 className="section-title">Parameters</h2>
