@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ChevronRight, Activity } from 'lucide-react';
+import { Search, ChevronRight, Activity, Zap } from 'lucide-react';
 
 function Marketplace() {
   const [apis, setApis] = useState([]);
@@ -8,7 +8,6 @@ function Marketplace() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch APIs from backend
     const apiUrl = import.meta.env.DEV ? 'http://localhost:5000/api/directory' : '/api/directory';
     fetch(apiUrl)
       .then(res => res.json())
@@ -31,34 +30,38 @@ function Marketplace() {
     <div>
       <section className="hero">
         <div className="container animate-fade-in">
-          <h1>API Corner</h1>
-          <p>Discover, test, and integrate high-demand IT and Developer APIs for your next project. Totally free and open source.</p>
+          <h1>Discover the <span className="text-gradient">Future</span> of APIs</h1>
+          <p>Integrate high-demand IT and Developer APIs seamlessly. Built for scale, totally free and open source.</p>
           
-          <div className="search-bar">
-            <Search className="search-icon" size={20} />
-            <input 
-              type="text" 
-              placeholder="Search APIs..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div className="search-container">
+            <div className="search-bar">
+              <Search className="search-icon" size={24} />
+              <input 
+                type="text" 
+                placeholder="Search by name or description..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
         </div>
       </section>
 
       <section className="container">
         {loading ? (
-          <div style={{ textAlign: 'center', padding: '40px' }}>
-            <Activity className="animate-spin" size={40} style={{ color: 'var(--primary-color)', animation: 'spin 1s linear infinite' }} />
-            <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+          <div className="api-grid">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="api-card skeleton" style={{ height: '280px' }}></div>
+            ))}
           </div>
         ) : (
           <div className="api-grid">
             {filteredApis.map((api, index) => (
-              <div 
+              <Link 
+                to={`/api/${api.id}`} 
                 key={api.id} 
-                className="api-card animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`api-card animate-fade-in delay-${(index % 3) + 1}`}
+                style={{ textDecoration: 'none' }}
               >
                 <div className="api-card-header">
                   <h3 className="api-title">{api.name}</h3>
@@ -67,18 +70,20 @@ function Marketplace() {
                 <p className="api-description">{api.description}</p>
                 <div className="api-card-footer">
                   <span className="api-method">{api.method}</span>
-                  <Link to={`/api/${api.id}`} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.85rem' }}>
-                    View Docs <ChevronRight size={16} />
-                  </Link>
+                  <div className="btn-icon">
+                    <ChevronRight size={20} />
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
         
         {!loading && filteredApis.length === 0 && (
-          <div style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-            <p>No APIs found matching your search.</p>
+          <div style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '60px 0' }}>
+            <Zap size={48} style={{ opacity: 0.2, marginBottom: '20px' }} />
+            <h3 style={{ fontSize: '1.5rem', color: 'white' }}>No results found</h3>
+            <p>Try adjusting your search terms.</p>
           </div>
         )}
       </section>

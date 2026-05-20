@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Marketplace from './pages/Marketplace';
 import ApiDetails from './pages/ApiDetails';
 
@@ -15,6 +16,7 @@ function App() {
             <Route path="/api/:id" element={<ApiDetails />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );

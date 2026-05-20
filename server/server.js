@@ -14,6 +14,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Artificial delay middleware to showcase frontend loading states
+app.use('/api', (req, res, next) => {
+  setTimeout(next, 800); // 800ms delay
+});
+
 // Routes
 app.use('/api/directory', apiRoutes);
 app.use('/api/public', publicApis);
@@ -22,7 +27,7 @@ app.use('/api/public', publicApis);
 app.use(express.static(path.join(__dirname, '../Client/dist')));
 
 // Catch-all route to serve the React app for any other requests
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, '../Client/dist/index.html'));
 });
 

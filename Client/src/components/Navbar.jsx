@@ -7,11 +7,13 @@ function Navbar() {
     <nav className="navbar">
       <div className="container navbar-container">
         <Link to="/" className="navbar-logo">
-          <Terminal size={28} />
+          <span className="navbar-logo-icon">
+            <Terminal size={24} color="white" />
+          </span>
           <span>API Corner</span>
         </Link>
-        <div className="navbar-links">
-          <Link to="/" className="btn btn-secondary" style={{ marginRight: '10px' }}>Documentation</Link>
+        <div className="navbar-links" style={{ display: 'flex', gap: '16px' }}>
+          <Link to="/" className="btn btn-secondary">Documentation</Link>
           <a href="https://github.com" target="_blank" rel="noreferrer" className="btn btn-primary">GitHub</a>
         </div>
       </div>

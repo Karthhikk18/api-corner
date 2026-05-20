@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Play, Server } from 'lucide-react';
+import { ArrowLeft, Play, Server, Copy, CheckCircle2 } from 'lucide-react';
 
 function ApiDetails() {
   const { id } = useParams();
@@ -9,6 +9,7 @@ function ApiDetails() {
   const [testResult, setTestResult] = useState(null);
   const [testLoading, setTestLoading] = useState(false);
   const [testParams, setTestParams] = useState({});
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const apiUrl = import.meta.env.DEV ? `http://localhost:5000/api/directory/${id}` : `/api/directory/${id}`;
@@ -16,12 +17,17 @@ function ApiDetails() {
       .then(res => res.json())
       .then(data => {
         setApi(data);
-        // Initialize default test params
         const defaultParams = {};
         if (data.parameters) {
           data.parameters.forEach(p => {
             if (p.name === 'city') defaultParams[p.name] = 'London';
             if (p.name === 'count') defaultParams[p.name] = '3';
+            if (p.name === 'prompt') defaultParams[p.name] = 'What is the future of AI?';
+            if (p.name === 'language') defaultParams[p.name] = 'python';
+            if (p.name === 'code') defaultParams[p.name] = 'print("Hello World")';
+            if (p.name === 'ip') defaultParams[p.name] = '192.168.1.1';
+            if (p.name === 'investment') defaultParams[p.name] = '50000';
+            if (p.name === 'returns') defaultParams[p.name] = '120000';
           });
         }
         setTestParams(defaultParams);
@@ -38,7 +44,6 @@ function ApiDetails() {
     
     setTestLoading(true);
     try {
-      // Build query string
       const queryParams = new URLSearchParams(testParams).toString();
       const baseUrl = import.meta.env.DEV ? 'http://localhost:5000' : '';
       const url = `${baseUrl}${api.endpoint}${queryParams ? `?${queryParams}` : ''}`;
@@ -56,23 +61,33 @@ function ApiDetails() {
     setTestParams(prev => ({ ...prev, [name]: value }));
   };
 
-  if (loading) return <div className="container" style={{ padding: '60px 0', textAlign: 'center' }}>Loading...</div>;
-  if (!api || api.error) return <div className="container" style={{ padding: '60px 0' }}>API not found.</div>;
+  const handleCopy = () => {
+    navigator.clipboard.writeText(JSON.stringify(testResult || api?.exampleResponse, null, 2));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  if (loading) return <div className="container details-page"><div className="skeleton" style={{ height: '400px' }}></div></div>;
+  if (!api || api.error) return <div className="container details-page">API not found.</div>;
+
+  const baseUrl = import.meta.env.DEV ? 'http://localhost:5000' : window.location.origin;
 
   return (
     <div className="container details-page animate-fade-in">
       <Link to="/" className="back-link">
-        <ArrowLeft size={20} /> Back to Marketplace
+        <ArrowLeft size={18} /> Back to Marketplace
       </Link>
       
       <div className="details-header">
-        <h1 className="details-title">{api.name}</h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem' }}>{api.description}</p>
+        <h1 className="details-title text-gradient">{api.name}</h1>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', maxWidth: '800px', lineHeight: '1.8' }}>
+          {api.description}
+        </p>
       </div>
 
       <div className="endpoint-box">
         <span className="api-method">{api.method}</span>
-        <span>{import.meta.env.DEV ? 'http://localhost:5000' : window.location.origin}{api.endpoint}</span>
+        <span className="endpoint-url">{baseUrl}{api.endpoint}</span>
       </div>
 
       <h2 className="section-title">Parameters</h2>
@@ -89,49 +104,61 @@ function ApiDetails() {
           <tbody>
             {api.parameters.map((param, i) => (
               <tr key={i}>
-                <td style={{ fontFamily: 'monospace', color: 'var(--primary-color)' }}>{param.name}</td>
-                <td style={{ fontFamily: 'monospace' }}>{param.type}</td>
-                <td>{param.required ? <span className="badge-required">Yes</span> : 'No'}</td>
+                <td style={{ fontFamily: 'Outfit, monospace', color: 'var(--secondary-color)', fontWeight: 600 }}>{param.name}</td>
+                <td style={{ fontFamily: 'Outfit, monospace', color: 'var(--text-secondary)' }}>{param.type}</td>
+                <td>{param.required ? <span className="badge-required">Yes</span> : <span style={{ color: 'var(--text-muted)' }}>No</span>}</td>
                 <td>{param.description}</td>
               </tr>
             ))}
           </tbody>
         </table>
       ) : (
-        <p style={{ marginBottom: '40px', color: 'var(--text-secondary)' }}>This endpoint does not require any parameters.</p>
+        <p style={{ marginBottom: '50px', color: 'var(--text-muted)' }}>This endpoint does not require any parameters.</p>
       )}
 
       <h2 className="section-title">Example Response</h2>
-      <div className="code-block">
-        <pre><code>{JSON.stringify(api.exampleResponse, null, 2)}</code></pre>
+      <div className="code-block relative">
+        <button 
+          onClick={handleCopy}
+          style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
+          title="Copy JSON"
+        >
+          {copied ? <CheckCircle2 size={20} color="var(--success)" /> : <Copy size={20} />}
+        </button>
+        <pre><code style={{ color: '#a5d6ff' }}>{JSON.stringify(api.exampleResponse, null, 2)}</code></pre>
       </div>
 
       <h2 className="section-title">Interactive Playground</h2>
       <div className="playground">
-        <p style={{ marginBottom: '20px', color: 'var(--text-secondary)' }}>Test this API endpoint directly from your browser.</p>
+        <p style={{ marginBottom: '30px', color: 'var(--text-secondary)' }}>Test this API endpoint directly from your browser in real-time.</p>
         
-        {api.parameters && api.parameters.map((param, i) => (
-          <div key={i}>
-            <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-              {param.name} {param.required && '*'}
-            </label>
-            <input 
-              type="text" 
-              className="playground-input"
-              placeholder={`Enter ${param.name}`}
-              value={testParams[param.name] || ''}
-              onChange={(e) => handleParamChange(param.name, e.target.value)}
-            />
-          </div>
-        ))}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px', marginBottom: '30px' }}>
+          {api.parameters && api.parameters.map((param, i) => (
+            <div key={i} className="playground-input-group">
+              <label className="playground-label">
+                {param.name} {param.required && <span style={{ color: 'var(--error)' }}>*</span>}
+              </label>
+              <input 
+                type="text" 
+                className="playground-input"
+                placeholder={`e.g. ${testParams[param.name] || ''}`}
+                value={testParams[param.name] || ''}
+                onChange={(e) => handleParamChange(param.name, e.target.value)}
+              />
+            </div>
+          ))}
+        </div>
         
         <button className="btn btn-primary" onClick={handleTest} disabled={testLoading}>
-          {testLoading ? <Server className="animate-spin" size={18} /> : <Play size={18} />}
-          Send Request
+          {testLoading ? <Server className="animate-spin" size={20} /> : <Play size={20} />}
+          {testLoading ? 'Processing Request...' : 'Send Request'}
         </button>
         
         {testResult && (
           <div className="playground-result animate-fade-in">
+            <div style={{ position: 'absolute', top: '10px', right: '16px', fontSize: '0.8rem', color: 'var(--success)', fontFamily: 'Inter', fontWeight: 600 }}>
+              200 OK
+            </div>
             <pre><code>{JSON.stringify(testResult, null, 2)}</code></pre>
           </div>
         )}
