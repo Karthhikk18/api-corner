@@ -5,6 +5,7 @@ import { Search, ChevronRight, Activity, Zap } from 'lucide-react';
 function Marketplace() {
   const [apis, setApis] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,16 +22,21 @@ function Marketplace() {
       });
   }, []);
 
-  const filteredApis = apis.filter(api => 
-    api.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    api.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Extract unique categories
+  const categories = ['All', ...new Set(apis.map(api => api.category))];
+
+  const filteredApis = apis.filter(api => {
+    const matchesSearch = api.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          api.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = activeCategory === 'All' || api.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div>
       <section className="hero">
         <div className="container animate-fade-in">
-          <h1>Discover the <span className="text-gradient">Future</span> of APIs</h1>
+          <h1>Discover the <span className="text-neon">Future</span> of APIs</h1>
           <p>Integrate high-demand IT and Developer APIs seamlessly. Built for scale, totally free and open source.</p>
           
           <div className="search-container">
@@ -43,6 +49,20 @@ function Marketplace() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
+            
+            {!loading && (
+              <div className="filter-container animate-fade-in delay-1">
+                {categories.map(cat => (
+                  <button 
+                    key={cat} 
+                    className={`filter-pill ${activeCategory === cat ? 'active' : ''}`}
+                    onClick={() => setActiveCategory(cat)}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -83,7 +103,7 @@ function Marketplace() {
           <div style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '60px 0' }}>
             <Zap size={48} style={{ opacity: 0.2, marginBottom: '20px' }} />
             <h3 style={{ fontSize: '1.5rem', color: 'white' }}>No results found</h3>
-            <p>Try adjusting your search terms.</p>
+            <p>Try adjusting your search terms or filters.</p>
           </div>
         )}
       </section>
