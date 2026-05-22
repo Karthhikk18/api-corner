@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Play, Server, Copy, CheckCircle2 } from 'lucide-react';
 
-function ApiDetails() {
+function ApiDetails({ token, isAuthenticated }) {
   const { id } = useParams();
   const [api, setApi] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,14 +50,39 @@ function ApiDetails() {
     if (!api) return;
     
     setTestLoading(true);
+    let statusCode = 200;
     try {
       const queryParams = new URLSearchParams(testParams).toString();
       const baseUrl = import.meta.env.DEV ? 'http://localhost:5000' : '';
       const url = `${baseUrl}${api.endpoint}${queryParams ? `?${queryParams}` : ''}`;
       
       const res = await fetch(url);
+      statusCode = res.status;
       const data = await res.json();
       setTestResult(data);
+
+      // Record sandbox request history if user is authenticated
+      if (isAuthenticated && token) {
+        try {
+          await fetch(`${baseUrl}/api/history`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              apiId: api.id,
+              apiName: api.name,
+              endpoint: api.endpoint,
+              method: api.method,
+              parameters: testParams,
+              status: statusCode
+            })
+          });
+        } catch (historyErr) {
+          console.error('Error logging playground run to history:', historyErr);
+        }
+      }
     } catch (err) {
       setTestResult({ error: "Failed to fetch from API" });
     }

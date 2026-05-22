@@ -1,14 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Terminal, LogOut, LayoutDashboard, User } from 'lucide-react';
 
-function Navbar({ isAuthenticated, setIsAuthenticated }) {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    navigate('/');
-  };
+function Navbar({ isAuthenticated, user, onLogout }) {
+  // Extract user display name from email (e.g. "john" from "john@gmail.com")
+  const displayName = user?.email ? user.email.split('@')[0] : 'Developer';
 
   return (
     <nav className="navbar">
@@ -24,10 +20,16 @@ function Navbar({ isAuthenticated, setIsAuthenticated }) {
           
           {isAuthenticated ? (
             <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 12px', border: '1px solid var(--border-color)', borderRadius: '20px', background: 'rgba(255,255,255,0.02)', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                <User size={14} className="text-neon" />
+                <span style={{ fontWeight: 500 }}>{displayName}</span>
+              </div>
+              
               <Link to="/dashboard" className="btn btn-secondary">
                 <LayoutDashboard size={18} /> Dashboard
               </Link>
-              <button onClick={handleLogout} className="btn btn-secondary" style={{ color: 'var(--error)' }} title="Log Out">
+              
+              <button onClick={onLogout} className="btn btn-secondary" style={{ color: 'var(--error)' }} title="Log Out">
                 <LogOut size={18} />
               </button>
             </>
@@ -44,4 +46,3 @@ function Navbar({ isAuthenticated, setIsAuthenticated }) {
 }
 
 export default Navbar;
-

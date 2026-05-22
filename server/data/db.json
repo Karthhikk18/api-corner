@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "id": "peoussk8r",
+      "email": "karthikk.pedavegi@gmail.com",
+      "password": "$2b$10$Ni8IIIGfixy6V6JvwTY01.3hWJTjjTqjrxPyBTFDiu54a4EDyHmlq",
+      "createdAt": "2026-05-22T06:05:48.572Z"
+    }
+  ],
+  "history": [
+    {
+      "id": "tbt0h4vih",
+      "userId": "peoussk8r",
+      "apiId": "threat-intel-api",
+      "apiName": "Threat Intelligence API",
+      "endpoint": "/api/public/security/threats",
+      "method": "GET",
+      "parameters": {
+        "ip": "192.168.1.1"
+      },
+      "status": 200,
+      "timestamp": "2026-05-22T06:06:10.890Z"
+    },
+    {
+      "id": "8xpi46r5e",
+      "userId": "peoussk8r",
+      "apiId": "ai-roi-analyzer-api",
+      "apiName": "AI ROI Performance Analyzer",
+      "endpoint": "/api/public/ai/roi-analyzer",
+      "method": "GET",
+      "parameters": {
+        "investment": "50000",
+        "returns": "120000",
+        "timeframe": "1y"
+      },
+      "status": 200,
+      "timestamp": "2026-05-22T06:06:30.899Z"
+    }
+  ]
+}
