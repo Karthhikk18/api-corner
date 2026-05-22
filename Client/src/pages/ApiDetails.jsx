@@ -28,6 +28,13 @@ function ApiDetails() {
             if (p.name === 'ip') defaultParams[p.name] = '192.168.1.1';
             if (p.name === 'investment') defaultParams[p.name] = '50000';
             if (p.name === 'returns') defaultParams[p.name] = '120000';
+            if (p.name === 'branch') defaultParams[p.name] = 'CSE';
+            if (p.name === 'year') defaultParams[p.name] = '3';
+            if (p.name === 'goals') defaultParams[p.name] = 'Product-based companies';
+            if (p.name === 'topic') defaultParams[p.name] = 'OS Scheduling';
+            if (p.name === 'skills') defaultParams[p.name] = 'Java, React, Node';
+            if (p.name === 'role') defaultParams[p.name] = 'Frontend Developer';
+            if (p.name === 'hours') defaultParams[p.name] = '3';
           });
         }
         setTestParams(defaultParams);

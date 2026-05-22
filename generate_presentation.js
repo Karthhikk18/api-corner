@@ -161,7 +161,7 @@ addCard(slide4, 1.0, 1.8, 5.4, 2.3, "Modern Aesthetics", [
   "Engineered using clean glassmorphism patterns, micro-animations, and a highly polished grayscale & neon blue styling."
 ]);
 addCard(slide4, 6.93, 1.8, 5.4, 2.3, "Portfolio Integration", [
-  "Directly aggregates Karthikeya's 'AI ROI Performance Analyzer' to run predictive insight queries in real time."
+  "Directly integrates Karthikeya's flagship 'AI Study Buddy' academic assistant and 'AI ROI Performance Analyzer' into the live sandbox."
 ]);
 addCard(slide4, 1.0, 4.5, 5.4, 2.3, "Production Guardrails", [
   "Includes secure client token generation, cryptographic authorization headers, and simulated delay limits to defend services."
@@ -171,42 +171,60 @@ addCard(slide4, 6.93, 4.5, 5.4, 2.3, "Developer Velocity", [
 ]);
 
 // ==========================================
-// Slide 5: Tech Stack & Architecture
+// Slide 5: Flagship Integration: AI Study Buddy
 // ==========================================
-let slide5 = createBaseSlide("Technical Architecture & Stack");
+let slide5 = createBaseSlide("Flagship Integration: AI Study Buddy");
+
+addCard(slide5, 1.0, 1.8, 5.4, 5.0, "Smart Academic Sidekick", [
+  "▪ Personalised Roadmaps: Generates daily/weekly study targets and career strategy by branch and goals.",
+  "▪ Concept Explainer: Translates complex programming/OS topics into beginner-friendly analogies and code blocks.",
+  "▪ Placement Assistant: Dynamic quiz generator, ATS resume review, and tailored mock interviews.",
+  "▪ Gamified Tracker: Tracks study hours and streaks using RPG style experience points (XP) and level metrics."
+]);
+
+addCard(slide5, 6.93, 1.8, 5.4, 5.0, "Developer API Ecosystem", [
+  "▪ Developer Ready: Exposes 7 production-grade REST endpoints including roadmap, explain, and review.",
+  "▪ Live Playground: Test endpoints inside the terminal simulator and inspect formatted JSON outputs.",
+  "▪ SaaS Monetization: Clean developer architecture built to restrict tokens, log usage, and charge subscriptions."
+]);
+
+// ==========================================
+// Slide 6: Tech Stack & Architecture
+// ==========================================
+let slide6 = createBaseSlide("Technical Architecture & Stack");
 
 // Left Column: Frontend
-addCard(slide5, 1.0, 1.8, 5.4, 5.0, "Frontend Presentation Layer", [
-  "▪ React.js (Vite): Modular UI structure ensuring fast single-page app loading.",
-  "▪ Vanilla CSS System: Flexible styling representing glows, card borders, and dark mode layouts.",
-  "▪ State Router: Seamless navigation across Dashboard, Auth dashboard, and API detailed logs.",
-  "▪ Lucide Icons: Glowing cyan vector representations."
+addCard(slide6, 1.0, 1.8, 5.4, 5.0, "Frontend Presentation Layer", [
+  "▪ React.js (Vite): Modular SPA layout ensuring instant client loading and transitions.",
+  "▪ Vanilla CSS System: Elegant grayscale aesthetics with custom glassmorphism and glowing neon accents.",
+  "▪ State Router: Secure route protection for dashboards and auth.",
+  "▪ Lucide & Framer Motion: Polished vectors and responsive micro-animations."
 ]);
 
 // Right Column: Backend
-addCard(slide5, 6.93, 1.8, 5.4, 5.0, "Backend Microservices Layer", [
-  "▪ Python & Node.js: High efficiency controllers and modular API servers.",
-  "▪ Docker Containment: Standardized local/cloud staging environments.",
-  "▪ Gateway Routing: Intermediary proxy handling CORS limits, headers, and request tracking.",
+addCard(slide6, 6.93, 1.8, 5.4, 5.0, "Backend Microservices Layer", [
+  "▪ Node.js & Express: Consolidated server router serving client pages and routes.",
+  "▪ Mock AI Services: Robust handlers returning customized responses for roadmaps, reviews, and quizzes.",
+  "▪ Database Schema: Designed with MongoDB schema patterns for future user-data persistence.",
   "▪ Git & GitHub: Maintained clean branch integrations for codebase safety."
 ]);
 
 // ==========================================
-// Slide 6: Future Roadmap
+// Slide 7: Future Roadmap
 // ==========================================
-let slide6 = createBaseSlide("Future Roadmap");
+let slide7 = createBaseSlide("Future Roadmap");
 // 3 Columns representing 3 Phases
-addCard(slide6, 1.0, 1.8, 3.5, 5.0, "Phase 1: Performance Core", [
-  "▪ FastAPI Migration: Port Mock backend controllers into async Python threads for high throughput.",
-  "▪ Redis Cache: Introduce Redis cache mechanisms to manage rate limits and cache persistent payloads."
+addCard(slide7, 1.0, 1.8, 3.5, 5.0, "Phase 1: Performance Core", [
+  "▪ FastAPI Migration: Port proxy routers to asynchronous Python workers.",
+  "▪ Redis Cache: Cache frequent roadmap queries for sub-millisecond responses."
 ]);
-addCard(slide6, 4.91, 1.8, 3.5, 5.0, "Phase 2: Secure Platform", [
-  "▪ Production Auth: Build OAuth 2.0 (GitHub/Google) authentication flows.",
-  "▪ Database Sync: Deploy a secure PostgreSQL database to store and manage actual consumer metric rows."
+addCard(slide7, 4.91, 1.8, 3.5, 5.0, "Phase 2: Secure Platform", [
+  "▪ MongoDB Storage: Integrate database rows to store actual student profiles, streaks, and codes.",
+  "▪ Real-Time Rooms: Implement Socket.io study rooms and collaborative boards."
 ]);
-addCard(slide6, 8.82, 1.8, 3.5, 5.0, "Phase 3: Developer Utility", [
-  "▪ Analytics Charts: Integrate UI charting (Recharts) inside the dashboard for requests/latency.",
-  "▪ SDK Generation: Export client library SDK packages (Python/JS/Go) for sandbox integrations."
+addCard(slide7, 8.82, 1.8, 3.5, 5.0, "Phase 3: Advanced AI features", [
+  "▪ AI Voice Tutor: Deploy WebRTC connections to talk with the AI mentor.",
+  "▪ Visual Learning: Generate auto-mindmaps and flowcharts directly inside explanations."
 ]);
 
 // Save the Presentation
@@ -217,3 +235,4 @@ pptx.writeFile({ fileName: 'API_Marketplace_Presentation.pptx' })
   .catch(err => {
     console.error('Error generating presentation:', err);
   });
+

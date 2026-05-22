@@ -151,8 +151,169 @@ export const apiListings = [
       riskScore: "Low",
       lastActive: "2026-05-19T08:12:00Z"
     }
+  },
+  {
+    id: "study-roadmap-api",
+    name: "AI Study Roadmap Generator",
+    description: "Generates a personalized daily/weekly study plan and roadmap based on the student's branch, year, goal, and skill level.",
+    category: "Academic AI",
+    method: "GET",
+    endpoint: "/api/public/study-buddy/generate-roadmap",
+    parameters: [
+      { name: "branch", type: "string", required: true, description: "Academic branch (e.g. CSE, AI, ECE)" },
+      { name: "year", type: "string", required: true, description: "Current year of study (e.g. 1, 2, 3, 4)" },
+      { name: "goals", type: "string", required: true, description: "Target goals (e.g. 'Product-based companies')" },
+      { name: "level", type: "string", required: false, description: "Current skill level (Beginner, Intermediate, Advanced)" }
+    ],
+    exampleResponse: {
+      success: true,
+      studentProfile: { branch: "CSE", year: "3", goals: "Product-based companies", level: "Beginner" },
+      roadmap: [
+        {
+          week: 1,
+          focus: "Data Structures & Algorithms Foundations",
+          topics: ["Space/Time Complexity", "Arrays & Vectors", "Linked Lists"],
+          milestone: "Implement a custom Singly Linked List in Java/C++"
+        },
+        {
+          week: 2,
+          focus: "OOP Concepts & Java Core",
+          topics: ["Inheritance", "Polymorphism", "Encapsulation", "Abstraction"],
+          milestone: "Design a text-based bank simulation application"
+        }
+      ],
+      placementStrategy: "Focus on daily LeetCode (easy-medium) and review OS Scheduling algorithms."
+    }
+  },
+  {
+    id: "study-explain-api",
+    name: "AI Concept Explainer",
+    description: "Explains complex academic and programming concepts step-by-step with analogies and simplified code snippets.",
+    category: "Academic AI",
+    method: "GET",
+    endpoint: "/api/public/study-buddy/explain-topic",
+    parameters: [
+      { name: "topic", type: "string", required: true, description: "Topic to explain (e.g. 'OS Scheduling' or 'Java OOPs')" },
+      { name: "level", type: "string", required: false, description: "Target explanation complexity (Beginner, Intermediate, Advanced)" }
+    ],
+    exampleResponse: {
+      success: true,
+      topic: "OS Scheduling",
+      explanation: "Imagine a single billing counter at a busy fast-food restaurant (the CPU) and a queue of hungry customers waiting to order (processes). OS Scheduling decides who gets served next based on different queueing algorithms.",
+      keyConcepts: [
+        { term: "FIFO (First In First Out)", definition: "First process to arrive is served first. Simplest, but can cause long waits if the first customer has a huge order." },
+        { term: "Round Robin", definition: "Each process gets a tiny slice of CPU time (quantum), then moves to the back of the queue." }
+      ],
+      analogy: "A fast-food billing line.",
+      codeSnippet: "class Process {\n  String name;\n  int burstTime;\n}"
+    }
+  },
+  {
+    id: "study-resume-api",
+    name: "AI Resume Feedback Tool",
+    description: "Analyzes professional skills and projects to provide ATS-compatibility feedback and optimization recommendations.",
+    category: "Academic AI",
+    method: "GET",
+    endpoint: "/api/public/study-buddy/analyze-resume",
+    parameters: [
+      { name: "skills", type: "string", required: true, description: "Comma-separated list of skills (e.g. 'Java, React, Node')" },
+      { name: "experience", type: "string", required: false, description: "Brief description of projects or work history" }
+    ],
+    exampleResponse: {
+      success: true,
+      atsScore: 78,
+      missingKeywords: ["Docker", "Unit Testing", "System Design"],
+      strengths: ["Strong foundational skills in Full Stack Web Development", "Relevant React/Node.js project exposure"],
+      recommendation: "Incorporate metrics into your project descriptions (e.g., 'Optimized query execution by 30%')."
+    }
+  },
+  {
+    id: "study-quiz-api",
+    name: "AI Quiz Generator",
+    description: "Generates multiple-choice questions for placement preparation or academic revision.",
+    category: "Academic AI",
+    method: "GET",
+    endpoint: "/api/public/study-buddy/generate-quiz",
+    parameters: [
+      { name: "topic", type: "string", required: true, description: "Quiz topic (e.g. 'Binary Search' or 'DBMS')" },
+      { name: "count", type: "number", required: false, description: "Number of questions to generate (max 5)" }
+    ],
+    exampleResponse: {
+      success: true,
+      quiz: [
+        {
+          question: "Which OOP concept is achieved by function overloading?",
+          options: ["Encapsulation", "Polymorphism", "Inheritance", "Abstraction"],
+          answer: "Polymorphism"
+        }
+      ]
+    }
+  },
+  {
+    id: "study-code-review-api",
+    name: "AI Code Reviewer",
+    description: "Reviews source code snippets for logical bugs, security hazards, and code style improvements.",
+    category: "Academic AI",
+    method: "GET",
+    endpoint: "/api/public/study-buddy/code-review",
+    parameters: [
+      { name: "language", type: "string", required: true, description: "Programming language of the snippet" },
+      { name: "code", type: "string", required: true, description: "Source code to review" }
+    ],
+    exampleResponse: {
+      success: true,
+      bugsFound: 0,
+      optimizations: "Your loop has O(N^2) complexity. You can optimize it to O(N) using a HashSet or HashMap.",
+      refactoredCode: "// Refactored version using a HashSet for O(N) lookup"
+    }
+  },
+  {
+    id: "study-progress-api",
+    name: "Student Progress Tracker",
+    description: "Updates logged study hours, tracks streaks, and updates gamified RPG experience points (XP).",
+    category: "Academic AI",
+    method: "GET",
+    endpoint: "/api/public/study-buddy/track-progress",
+    parameters: [
+      { name: "hours", type: "number", required: true, description: "Number of study hours to log" },
+      { name: "topic", type: "string", required: true, description: "Topic completed" },
+      { name: "streak", type: "number", required: false, description: "Current consecutive days of studying" }
+    ],
+    exampleResponse: {
+      success: true,
+      streak: 5,
+      hoursLogged: 3,
+      xpGained: 150,
+      currentLevel: 4,
+      totalXp: 1250,
+      unlockedAchievements: ["Consistent Learner (5-day streak)"]
+    }
+  },
+  {
+    id: "study-mock-interview-api",
+    name: "Mock Interview Simulator",
+    description: "Simulates placement HR or technical interview questions tailored for a specific role and difficulty level.",
+    category: "Academic AI",
+    method: "GET",
+    endpoint: "/api/public/study-buddy/mock-interview",
+    parameters: [
+      { name: "role", type: "string", required: true, description: "Target job role (e.g. 'Frontend Developer')" },
+      { name: "difficulty", type: "string", required: false, description: "Interview difficulty (Easy, Medium, Hard)" }
+    ],
+    exampleResponse: {
+      success: true,
+      role: "Frontend Developer",
+      difficulty: "Medium",
+      questions: [
+        "What is the difference between Virtual DOM and Shadow DOM?",
+        "Explain how closures work in JavaScript and write a code example.",
+        "How do you optimize page load performance in a React application?"
+      ],
+      tips: "Focus on detailing how the React diffing algorithm and browser paint loops interact."
+    }
   }
 ];
+
 
 // Mock Data for the public APIs
 export const quotesData = [
