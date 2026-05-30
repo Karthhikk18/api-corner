@@ -22,7 +22,8 @@ function TerminalLoader() {
     // Speed up display of lines so it fits within 1.5 seconds nicely
     const interval = setInterval(() => {
       if (currentLine < allLines.length) {
-        setLines(prev => [...prev, allLines[currentLine]]);
+        const nextLine = allLines[currentLine];
+        setLines(prev => [...prev, nextLine]);
         currentLine++;
       } else {
         clearInterval(interval);
