@@ -693,3 +693,237 @@ a {
 .delay-1 { animation-delay: 0.1s; }
 .delay-2 { animation-delay: 0.2s; }
 .delay-3 { animation-delay: 0.3s; }
+
+/* Cyber Floating Orbs */
+.orb-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.1;
+  animation: drift 25s infinite alternate ease-in-out;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--primary-color);
+  top: -10%;
+  left: 10%;
+  animation-duration: 20s;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: #008cff;
+  bottom: -15%;
+  right: 5%;
+  animation-duration: 28s;
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  width: 300px;
+  height: 300px;
+  background: #ffffff;
+  top: 35%;
+  left: 45%;
+  animation-duration: 22s;
+  animation-delay: -10s;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6vw, 4vh) scale(1.15); }
+  100% { transform: translate(-4vw, -6vh) scale(0.9); }
+}
+
+/* Animated Cyber Grid */
+.cyber-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 243, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.015) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
+  pointer-events: none;
+  z-index: -1;
+  animation: grid-pulse 10s infinite alternate ease-in-out;
+}
+
+@keyframes grid-pulse {
+  0% { opacity: 0.4; transform: scale(1); }
+  100% { opacity: 0.8; transform: scale(1.03); }
+}
+
+/* Mouse-Tracking Spotlight Card Hover */
+.api-card {
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+}
+
+.api-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: radial-gradient(350px circle at var(--mouse-x) var(--mouse-y), rgba(0, 243, 255, 0.1), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.05);
+}
+
+.api-card:hover::after {
+  opacity: 1;
+}
+
+/* Category Filter Pills spring and hover */
+.filter-pill {
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.filter-pill:hover {
+  transform: translateY(-2px) scale(1.05);
+  border-color: var(--primary-glow);
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.filter-pill.active {
+  animation: pill-glow-pulse 2s infinite alternate;
+}
+
+@keyframes pill-glow-pulse {
+  0% { box-shadow: 0 0 6px rgba(0, 243, 255, 0.2); }
+  100% { box-shadow: 0 0 14px rgba(0, 243, 255, 0.6); }
+}
+
+/* Playground Packet Pulse track */
+.playground-pulse-track {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  margin: 24px 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.playground-pulse-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+  box-shadow: 0 0 12px var(--primary-glow);
+  animation: pulse-flow 1.2s infinite linear;
+}
+
+@keyframes pulse-flow {
+  0% { left: -150px; }
+  100% { left: 100%; }
+}
+
+/* Cyber Loading Diagnostics Screen */
+.terminal-loader {
+  background-color: #030303;
+  font-family: 'Outfit', monospace;
+  color: var(--primary-color);
+  padding: 35px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 243, 255, 0.05);
+  max-width: 600px;
+  width: 90%;
+  text-align: left;
+  border-top: 4px solid var(--primary-color);
+}
+
+.terminal-header-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 15px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot-red { background-color: #ff5f56; }
+.dot-yellow { background-color: #ffbd2e; }
+.dot-green { background-color: #27c93f; }
+
+.terminal-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  font-family: monospace;
+}
+
+.terminal-line {
+  margin-bottom: 10px;
+  color: #fff;
+  opacity: 0.9;
+}
+
+.terminal-line-success {
+  color: var(--primary-color);
+}
+
+.terminal-prompt {
+  color: #555;
+  margin-right: 10px;
+}
+
+.terminal-cursor {
+  animation: blink-caret 0.8s step-end infinite;
+  font-weight: bold;
+}
+
+/* Navbar Logo Signal pulse */
+.navbar-logo:hover .navbar-logo-icon {
+  animation: logo-signal 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes logo-signal {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 8px var(--primary-glow));
+  }
+  100% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 18px var(--primary-color));
+  }
+}
+
+/* Button icon scale interaction */
+.btn svg {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn:hover svg {
+  transform: scale(1.12) rotate(-5deg);
+}
+

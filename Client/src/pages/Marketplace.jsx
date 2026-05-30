@@ -34,8 +34,14 @@ function Marketplace() {
 
   return (
     <div>
-      <section className="hero">
-        <div className="container animate-fade-in">
+      <section className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div className="orb-container">
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+        </div>
+        <div className="cyber-grid"></div>
+        <div className="container animate-fade-in" style={{ position: 'relative', zIndex: 2 }}>
           <h1>Discover the <span className="text-neon">Future</span> of APIs</h1>
           <p>Integrate high-demand IT and Developer APIs seamlessly. Built for scale, totally free and open source.</p>
           
@@ -82,6 +88,14 @@ function Marketplace() {
                 key={api.id} 
                 className={`api-card animate-fade-in delay-${(index % 3) + 1}`}
                 style={{ textDecoration: 'none' }}
+                onMouseMove={(e) => {
+                  const card = e.currentTarget;
+                  const rect = card.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  card.style.setProperty('--mouse-x', `${x}px`);
+                  card.style.setProperty('--mouse-y', `${y}px`);
+                }}
               >
                 <div className="api-card-header">
                   <h3 className="api-title">{api.name}</h3>

@@ -50,6 +50,7 @@ function ApiDetails({ token, isAuthenticated }) {
     if (!api) return;
     
     setTestLoading(true);
+    setTestResult(null);
     let statusCode = 200;
     try {
       const queryParams = new URLSearchParams(testParams).toString();
@@ -182,9 +183,15 @@ function ApiDetails({ token, isAuthenticated }) {
         </div>
         
         <button className="btn btn-primary" onClick={handleTest} disabled={testLoading}>
-          {testLoading ? <Server className="animate-spin" size={20} /> : <Play size={20} />}
+          {testLoading ? <Server size={20} style={{ animation: 'spin 1.5s linear infinite' }} /> : <Play size={20} />}
           {testLoading ? 'Processing Request...' : 'Send Request'}
         </button>
+        
+        {testLoading && (
+          <div className="playground-pulse-track">
+            <div className="playground-pulse-bar"></div>
+          </div>
+        )}
         
         {testResult && (
           <div className="playground-result animate-fade-in">
